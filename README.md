@@ -34,12 +34,9 @@ Ban and deletion are equivalent to `markChatItemsByAuthorAsDeletedAction` and `m
 
 | column          | type   | description                  |
 | --------------- | ------ | ---------------------------- |
-| timestamp       | string | UTC timestamp                |
 | body            | string | chat message                 |
 | membership      | string | membership status            |
-| id              | string | anonymized chat id           |
 | authorChannelId | string | anonymized author channel id |
-| videoId         | string | source video id              |
 | channelId       | string | source channel id            |
 
 #### Membership status
@@ -60,33 +57,23 @@ Ban and deletion are equivalent to `markChatItemsByAuthorAsDeletedAction` and `m
 Set `keep_default_na` to `False` and `na_values` to `''` in `read_csv`. Otherwise, chat message like `NA` would incorrectly be treated as NaN value.
 
 ```python
-chats = pd.read_csv('../input/vtuber-livechat/chats_2021-03.csv',
-                    na_values='',
-                    keep_default_na=False,
-                    index_col='timestamp',
-                    parse_dates=True)
+import pandas as pd
+from glob import iglob
+
+flagged = pd.concat([
+    pd.read_csv(f,
+                na_values='',
+                keep_default_na=False)
+    for f in iglob('../input/sensai/chats_flagged_*.csv')
+],
+               ignore_index=True)
 ```
-
-### Channels (`channels.csv`)
-
-| column            | type            | description            |
-| ----------------- | --------------- | ---------------------- |
-| channelId         | string          | channel id             |
-| name              | string          | channel name           |
-| englishName       | nullable string | channel name (English) |
-| affiliation       | string          | channel affiliation    |
-| group             | nullable string | group                  |
-| subscriptionCount | number          | subscription count     |
-| videoCount        | number          | uploads count          |
-| photo             | string          | channel icon           |
-
-Inactive channels have `INACTIVE` in `group` column.
 
 ## Consideration
 
 ### Anonymization
 
-`id` and `channelId` are anonymized by SHA-1 hashing algorithm with a pinch of undisclosed salt.
+`authorChannelId` are anonymized by SHA-1 hashing algorithm with a pinch of undisclosed salt.
 
 ### Handling Custom Emojis
 
@@ -97,7 +84,7 @@ All custom emojis are replaced with a Unicode replacement character `U+FFFD`.
 ```latex
 @misc{sensai-dataset,
  author={Yasuaki Uechi},
- title={Sensai: Large Scale Virtual YouTubers Live Chat Dataset},
+ title={Sensai: Toxic Chat Dataset},
  year={2021},
  month={8},
  version={31},
