@@ -1,5 +1,11 @@
 # Contribution Guide
 
+## Setup
+
+```bash
+poetry install
+```
+
 ## Generate dataset
 
 ```bash
