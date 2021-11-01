@@ -34,12 +34,12 @@ Ban and deletion are equivalent to `markChatItemsByAuthorAsDeletedAction` and `m
 
 ### Chats (`chats_%Y-%m.csv`)
 
-| column          | type   | description                  |
-| --------------- | ------ | ---------------------------- |
-| body            | string | chat message                 |
-| authorChannelId | string | anonymized author channel id |
-| channelId       | string | source channel id            |
-| label           | enum   | toxic,spam,safe              |
+| column          | type   | description                   |
+| --------------- | ------ | ----------------------------- |
+| body            | string | chat message                  |
+| authorChannelId | string | anonymized author channel id  |
+| channelId       | string | source channel id             |
+| label           | string | {deleted, hidden, nonflagged} |
 
 ## Usage
 

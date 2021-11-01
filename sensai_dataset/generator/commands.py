@@ -12,11 +12,11 @@ def generate_dataset(source_dir, target_dir, matcher):
     del_events = pd.read_csv(delet_path, usecols=['id', 'retracted'])
     del_events = del_events.query('retracted == 0').copy()
     del_events.drop(columns=['retracted'], inplace=True)
-    del_events['label'] = 'toxic'
+    del_events['label'] = 'deleted'
 
     ban_path = join(source_dir, 'ban_events.csv')
     ban_events = pd.read_csv(ban_path, usecols=['authorChannelId', 'videoId'])
-    ban_events['label'] = 'spam'
+    ban_events['label'] = 'hidden'
 
     for f in sorted(iglob(join(source_dir, matcher))):
         period_string = splitext(basename(f))[0].split('_')[1]
@@ -48,12 +48,13 @@ def generate_dataset(source_dir, target_dir, matcher):
 
         # apply mods
         print('>>> Merging deletion')
-        chats = pd.merge(chats, del_events, on='id', how='left')
+        chats.loc[chats['id'].isin(del_events['id']), 'label'] = 'deleted'
 
-        # fill NA label
-        chats['label'].fillna('safe', inplace=True)
+        # apply safe
+        print('>>> Applying safe')
+        chats['label'].fillna('nonflagged', inplace=True)
 
-        isFlagged = chats['label'] != 'safe'
+        isFlagged = chats['label'] != 'nonflagged'
         flagged = chats[isFlagged].copy()
 
         # to make balanced dataset
