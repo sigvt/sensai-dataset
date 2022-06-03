@@ -1,6 +1,9 @@
 .envrc
 .env
 .vscode
+TODO
+*.csv
+*.tangram
 /tmp
 
 # Created by https://www.toptal.com/developers/gitignore/api/python

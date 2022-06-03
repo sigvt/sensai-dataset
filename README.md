@@ -32,7 +32,7 @@ Ban and deletion are equivalent to `markChatItemsByAuthorAsDeletedAction` and `m
 
 ## Dataset Breakdown
 
-### Chats (`chats_%Y-%m.csv`)
+### Chats (`chats_%Y-%m.parquet`)
 
 | column          | type   | description                   |
 | --------------- | ------ | ----------------------------- |
@@ -42,6 +42,17 @@ Ban and deletion are equivalent to `markChatItemsByAuthorAsDeletedAction` and `m
 | label           | string | {deleted, hidden, nonflagged} |
 
 ## Usage
+
+### Pandas
+
+```python
+import pandas as pd
+from glob import glob
+
+df = pd.concat([pd.read_parquet(x) for x in glob('../input/sensai/*.parquet')], ignore_index=True)
+```
+
+### Huggingface Transformers
 
 https://huggingface.co/docs/datasets/loading_datasets.html
 
@@ -73,6 +84,13 @@ trainer = Trainer(
 )
 
 trainer.train()
+```
+
+### Tangram
+
+```bash
+python3 ./examples/prepare_tangram_dataset.py
+tangram train --file ./tangram_input.csv --target label
 ```
 
 ## Consideration

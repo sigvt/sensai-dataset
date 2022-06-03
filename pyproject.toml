@@ -8,18 +8,20 @@ authors = ["Yasuaki Uechi <y@uechi.io>"]
 python = "^3.8"
 datasets = {git = "https://github.com/huggingface/datasets.git", rev = "master"}
 #datasets = "^1.11.0"
-pyarrow = "^5.0.0"
+pyarrow = "^7.0.0"
 
 [tool.poetry.dev-dependencies]
-pymongo = "^3.11.3"
-transformers = "^4.10.0"
-torch = "^1.9.0"
-tokenizers = "^0.10.3"
+pymongo = "^4.0.2"
+transformers = "^4.17.0"
+torch = "^1.11.0"
+tokenizers = "^0.11.6"
 kaggle = "^1.5.12"
-pandas = "^1.2.3"
-python-dateutil = "^2.8.1"
-ipykernel = "^6.2.0"
-yapf = "^0.31.0"
+pandas = "^1.4.1"
+python-dateutil = "^2.8.2"
+yapf = "^0.32.0"
+sentence-transformers = "^2.2.0"
+jupyter = "^1.0.0"
+tangram = "^0.7.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
